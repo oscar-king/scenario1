@@ -5,6 +5,18 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.text import slugify
 
+# class Category(models.Model):
+#     name = models.CharField(max_length=250)
+#     slug = models.SlugField(max_length=250, unique=True)
+#
+#     class Meta:
+#         ordering = ('name',)
+#         verbose_name = 'category'
+#         verbose_name_plural = 'categories'
+#
+#     def __str__(self):
+#         return self.name
+
 class PostManager(models.Manager):
     def active(self, *args, **kwargs):
         return super(PostManager, self).filter(draft=False)
@@ -13,6 +25,7 @@ def upload_location(instance, filename):
     return "%s/%s" %(instance.id, filename)
 
 class Post(models.Model):
+    #category = models.ForeignKey(Category)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     title = models.CharField(max_length=250)
     slug = models.SlugField(unique=True)
