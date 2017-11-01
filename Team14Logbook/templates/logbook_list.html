@@ -5,7 +5,9 @@
 <div>
 
   <div class="col-sm-6 col-sm-offset-3">
-    <h1>{{ title }}</h1>
+    <div class="page-header">
+      <h1>{{ title }}</h1>
+    </div>
 
     <form method='GET' action=''>
       <div class="row">
@@ -29,12 +31,19 @@
             <img src='{{ obj.image.url }}' class='img-responsive' />
           {% endif %}
           <div class="caption">
-            <h3>{% if obj.draft %} <span style='color: red;'>Draft </span>{% endif %}</h3>
             <!-- <h3>{% if obj.publish > today %} <span style='color: #0DDC5D;'>Future Post {% endif %}</span></h3> -->
-            <h3><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a> <small>{{ obj.publish }}</small></h3>
-            {% if obj.user.get_full_name %}
-              <p>Author: {{ obj.user.get_full_name }}</p>
-            {% endif %}
+            <div class="page-header">
+              <h3><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a>
+              {% if obj.draft %}
+                <span class="label label-warning"> Draft</span>
+              {% endif %}
+              <small>{{ obj.publish }}</small></h3>
+              {% if obj.user.get_full_name %}
+                <p><span style='color: #777777;'>Author: {{ obj.user.get_full_name }}</span></p>
+                <p><span style='color: #777777;'>Category: {{ obj.category }}</span></p>
+              {% endif %}
+              </p>
+            </div>
             <p>{{ obj.content|linebreaks|truncatechars:40 }}</p>
             <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
           </div>
@@ -43,22 +52,24 @@
     {% endfor %}
     </div>
   </div>
+  </div>
 
-  <div class="pagination">
+  <footer style="position: fixed; bottom: 0; width: 100%; margin-left: 70%;">
+  <div class="pagination pager">
     <span class="step-links">
         {% if object_list.has_previous %}
-            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></a>
         {% endif %}
 
         <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            <strong><em>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}</em></strong>
         </span>
 
         {% if object_list.has_next %}
-            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></a>
         {% endif %}
     </span>
   </div>
-</div>
+</footer>
 
 {% endblock content %}

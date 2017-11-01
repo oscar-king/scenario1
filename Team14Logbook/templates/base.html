@@ -8,10 +8,15 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-static-top" style="background-color: #777777">
-    <a href="/logbook/" class="btn btn-default navbar-btn" role="button"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
-    <button type="button" class="btn btn-default navbar-btn">Sign in</button>
+  <div style="padding-bottom: 30px;">
+  <nav class="navbar navbar-fixed-top" style="background-color: #777777; position: fixed;">
+    <div class="container-fluid">
+      <a href="/logbook/" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+      <a href="/logbook/" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Sign In</a>
+      <a href="/logbook/create" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Create Log</a>
+    </div>
   </nav>
+</div>
   {% include "messages_display.html" %}
   <div class='container'>
     {% block content %}

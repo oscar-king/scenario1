@@ -4,17 +4,20 @@
 
 {% block content%}
 <div class='col-sm-6 col-sm-offset-3'>
-  {% if instance.image %}
-    <img src='{{ instance.image.url }}' class='img-responsive' />
-  {% endif %}
-  <h1>{{ title }} <small>{% if instance.draft %} <span style='color: red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
-  {% if instance.user.get_full_name %}
-    <p>Author: {{ instance.user.get_full_name }}
-      <a href="/logbook/{{ instance.slug }}/edit" class="btn btn-primary" role="button" style="margin-left: 250px;">Edit Post</a>
-      <a href="/logbook/{{ instance.slug }}/delete" class="btn btn-danger" role="button">Delete</a>
-      <!-- <button type="button" class="btn btn-danger">Delete</button> -->
-    </p>
-  {% endif %}
+  <div class="page-header">
+    {% if instance.image %}
+      <img src='{{ instance.image.url }}' class='img-responsive' />
+    {% endif %}
+    <h1>{{ title }} <small>{% if instance.draft %} <span class="label label-warning">Draft</span> {% endif %}{{ instance.publish }}</small></h1>
+    {% if instance.user.get_full_name %}
+      <p><span style='color: #777777;'>Author: {{ instance.user.get_full_name }}</span>
+        <a href="/logbook/{{ instance.slug }}/edit" class="btn btn-primary" role="button" style="margin-left: 250px;">Edit Post</a>
+        <a href="/logbook/{{ instance.slug }}/delete" class="btn btn-danger" role="button">Delete</a>
+        <!-- <button type="button" class="btn btn-danger">Delete</button> -->
+      </p>
+      <p><span style='color: #777777;'>Category: {{ instance.category }}</span></p>
+    {% endif %}
+  </div>
   {{ instance.content|linebreaks }}</br>
 </div>
 {% endblock content %}

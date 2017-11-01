@@ -5,8 +5,24 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.utils import timezone
 
-from .models import Post
+from .models import Post #, Category
 from .forms import PostForm
+
+# def list_of_logbook_by_category(request, category_slug):
+#     categories = Category.objects.all()
+#     post = Post.objects.filter(status='published')
+#
+#     if category_slug:
+#         category = get_object_or_404(Category, slug=category_slug)
+#         post = post.filter(category=category)
+#
+#     template = 'logbook/list_of_logbook_by_category.html'
+#     context = {
+#         'categories': categories,
+#         'post': post,
+#         'category': category,
+#     }
+#     return render(request, template, context)
 
 def logbook_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
@@ -55,7 +71,8 @@ def logbook_list(request): # list items
                 Q(title__icontains=query) |
                 Q(content__icontains=query) |
                 Q(user__first_name__icontains=query) |
-                Q(user__last_name__icontains=query)
+                Q(user__last_name__icontains=query) |
+                Q(category__icontains=query)
                 ).distinct()
 
     paginator = Paginator(queryset_list, 10) # Show 10 contacts per page

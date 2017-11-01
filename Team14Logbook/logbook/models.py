@@ -14,6 +14,9 @@ from django.utils.text import slugify
 #         verbose_name = 'category'
 #         verbose_name_plural = 'categories'
 #
+#     def get_absolute_url(self):
+#         return reverse('logbook:list_of_logbook_by_category', args=[self.slug])
+#
 #     def __str__(self):
 #         return self.name
 
@@ -25,7 +28,6 @@ def upload_location(instance, filename):
     return "%s/%s" %(instance.id, filename)
 
 class Post(models.Model):
-    #category = models.ForeignKey(Category)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     title = models.CharField(max_length=250)
     slug = models.SlugField(unique=True)
@@ -36,6 +38,7 @@ class Post(models.Model):
             width_field="width_field")
     height_field = models.IntegerField(default=0)
     width_field = models.IntegerField(default=0)
+    category = models.CharField(max_length=120)
     content = models.TextField()
     draft = models.BooleanField(default=False)
     publish = models.DateField(auto_now=False, auto_now_add=False)

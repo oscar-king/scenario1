@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/$', views.logbook_detail, name='logbook_detail'),
     url(r'^(?P<slug>[\w-]+)/edit/$', views.logbook_update, name='logbook_update'),
     url(r'^(?P<slug>[\w-]+)/delete/$', views.logbook_delete, name='logbook_delete'),
+    #url(r'^(?P<category_slug>[\w-]+)/$', views.list_of_logbook_by_category, name='list_of_logbook_by_category'),
 ]
