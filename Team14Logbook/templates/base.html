@@ -9,11 +9,15 @@
 
 <body>
   <div style="padding-bottom: 30px;">
-  <nav class="navbar navbar-fixed-top" style="background-color: #777777; position: fixed;">
+  <nav class="navbar navbar-fixed-top" style="background-color: #2d3082; position: fixed;">
     <div class="container-fluid">
-      <a href="/logbook/" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
-      <a href="/logbook/" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Sign In</a>
-      <a href="/logbook/create" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Create Log</a>
+      <a href="/" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+      {% if not user.is_authenticated %}
+        <a href="/login" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Login</a>
+      {% else %}
+        <a href="/create" class="btn btn-default navbar-btn" role="button" style="margin-right: 2%;">Create Log</a>
+        <a href="/logout" class="btn btn-default navbar-btn" role="button" style="margin-left: 75%;">Logout</a>
+      {% endif %}
     </div>
   </nav>
 </div>

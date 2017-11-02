@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Post #, Category
@@ -24,8 +25,9 @@ from .forms import PostForm
 #     }
 #     return render(request, template, context)
 
+@login_required(login_url='/login/')
 def logbook_create(request):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_authenticated():
         raise Http404
 
     # if not request.user.is_authenticated():
@@ -49,8 +51,9 @@ def logbook_detail(request, slug=None): # retrieve
     instance = get_object_or_404(Post, slug=slug)
 
     if instance.draft:
-        if not request.user.is_staff or not request.user.is_superuser:
-            raise Http404
+        if not request.user.is_authenticated():
+            if not request.user.is_staff or not request.user.is_superuser:
+                raise Http404
 
     context = {
         "title": instance.title,
@@ -95,11 +98,15 @@ def logbook_list(request): # list items
     }
     return render(request, "logbook_list.html", context)
 
+@login_required(login_url='/login/')
 def logbook_update(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
-
     instance = get_object_or_404(Post, slug=slug)
+
+    if not request.user.get_full_name == instance.user.get_full_name:
+        if not request.user.is_staff or not request.user.is_superuser:
+            raise Http404
+
+
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
 
     if form.is_valid():
@@ -116,8 +123,11 @@ def logbook_update(request, slug=None):
     return render(request, "logbook_form.html", context)
 
 def logbook_delete(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
+    instance = get_object_or_404(Post, slug=slug)
+
+    if not request.user.get_full_name == instance.user.get_full_name:
+        if not request.user.is_staff or not request.user.is_superuser:
+            raise Http404
 
     instance = get_object_or_404(Post, slug=slug)
     instance.delete()
